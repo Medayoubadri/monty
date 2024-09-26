@@ -41,7 +41,6 @@ int main(int argc, char **argv)
 
 	while (fgets(line, 1024, file) != NULL)
 	{
-		/* Remove trailing newline */
 		if (line[strlen(line) - 1] == '\n')
 			line[strlen(line) - 1] = '\0';
 
@@ -82,6 +81,8 @@ void clean_line(char *line)
 void process_line(char *line, unsigned int line_number, stack_t **stack)
 {
 	char *opcode;
+	char *arg = NULL;
+	int i = 0;
 
 	instruction_t instructions[] = {
 		{"pall", pall},
@@ -89,14 +90,18 @@ void process_line(char *line, unsigned int line_number, stack_t **stack)
 		{"pop", pop},
 		{"swap", swap},
 		{"add", add},
+		{"sub", sub},
+		{"div", div_op},
+		{"mul", mul},
+		{"mod", mod},
 		{"nop", nop},
 		{NULL, NULL}
 	};
-	char *arg = NULL;
-
-	int i = 0;
 
 	clean_line(line);
+
+	if (line[0] == '#' || line[0] == '\n' || line[0] == '\0')
+		return;
 
 	opcode = strtok(line, " \n\t");
 	if (opcode == NULL || opcode[0] == '#')
