@@ -36,6 +36,56 @@ void push(stack_t **stack, unsigned int line_number, char *arg)
 }
 
 /**
+ * pop - Removes the top element of the stack
+ * @stack: Pointer to the stack (doubly linked list)
+ * @line_number: The current line number in the bytecode file
+ *
+ * Description: If the stack is empty, prints an error message and exits.
+ */
+void pop(stack_t **stack, unsigned int line_number)
+{
+	stack_t *temp;
+
+	if (*stack == NULL)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = *stack;
+	*stack = (*stack)->next;
+	if (*stack != NULL)
+		(*stack)->prev = NULL;
+
+	free(temp);
+}
+
+
+/**
+ * swap - Swaps the top two elements of the stack
+ * @stack: Pointer to the stack (doubly linked list)
+ * @line_number: The current line number in the bytecode file
+ *
+ * Description: If the stack contains fewer than two elements,
+ * prints an error message and exits.
+ */
+void swap(stack_t **stack, unsigned int line_number)
+{
+	int temp;
+
+	if (*stack == NULL || (*stack)->next == NULL)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+		exit(EXIT_FAILURE);
+	}
+
+	temp = (*stack)->n;
+	(*stack)->n = (*stack)->next->n;
+	(*stack)->next->n = temp;
+}
+
+
+/**
  * pall - Prints all the values on the stack, starting from the top
  * @stack: Pointer to the stack (doubly linked list)
  * @line_number: The current line number (unused)
@@ -54,22 +104,19 @@ void pall(stack_t **stack, unsigned int line_number)
 }
 
 /**
- * check_int - Checks if a string represents a valid integer
- * @arg: The string to check
- * Return: 1 if the string is a valid integer, otherwise 0
+ * pint - Prints the value at the top of the stack
+ * @stack: Pointer to the stack (doubly linked list)
+ * @line_number: The current line number in the bytecode file
+ *
+ * Description: If the stack is empty, prints an error message and exits.
  */
-int check_int(char *arg)
+void pint(stack_t **stack, unsigned int line_number)
 {
-	int i = 0;
-
-	if (arg[0] == '-' || arg[0] == '+')
-		i++;
-
-	for (; arg[i] != '\0'; i++)
+	if (*stack == NULL)
 	{
-		if (!isdigit(arg[i]))
-			return (0);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", line_number);
+		exit(EXIT_FAILURE);
 	}
 
-	return (1);
+	printf("%d\n", (*stack)->n);
 }
