@@ -86,6 +86,7 @@ void process_line(char *line, unsigned int line_number, stack_t **stack)
 	instruction_t instructions[] = {
 		{"pall", pall},
 		{"pint", pint},
+		{"pop", pop},
 		{NULL, NULL}
 	};
 	char *arg = NULL;
