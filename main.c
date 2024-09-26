@@ -82,6 +82,8 @@ void process_line(char *line, unsigned int line_number, stack_t **stack)
 		{"pstr", pstr},
 		{"rotl", rotl},
 		{"rotr", rotr},
+		{"stack", stack_mode},
+		{"queue", queue},
 		{"nop", nop},
 		{NULL, NULL}
 	};
