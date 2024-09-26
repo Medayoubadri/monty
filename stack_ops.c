@@ -9,7 +9,7 @@
 void push(stack_t **stack, unsigned int line_number, char *arg)
 {
 	int n;
-	stack_t *new_node;
+	stack_t *new_node, *temp;
 
 	if (arg == NULL || check_int(arg) == 0)
 	{
@@ -27,12 +27,23 @@ void push(stack_t **stack, unsigned int line_number, char *arg)
 
 	new_node->n = n;
 	new_node->prev = NULL;
-	new_node->next = *stack;
+	new_node->next = NULL;
 
-	if (*stack != NULL)
-		(*stack)->prev = new_node;
-
-	*stack = new_node;
+	if (data_format == 0 || *stack == NULL)
+	{
+		new_node->next = *stack;
+		if (*stack != NULL)
+			(*stack)->prev = new_node;
+		*stack = new_node;
+	}
+	else
+	{
+		temp = *stack;
+		while (temp->next != NULL)
+			temp = temp->next;
+		temp->next = new_node;
+		new_node->prev = temp;
+	}
 }
 
 /**

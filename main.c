@@ -1,6 +1,7 @@
 #include "monty.h"
 
 void process_line(char *line, unsigned int line_number, stack_t **stack);
+int data_format = 0;
 
 /**
 * main - entry point
@@ -80,6 +81,7 @@ void process_line(char *line, unsigned int line_number, stack_t **stack)
 		{"pchar", pchar},
 		{"pstr", pstr},
 		{"rotl", rotl},
+		{"rotr", rotr},
 		{"nop", nop},
 		{NULL, NULL}
 	};
